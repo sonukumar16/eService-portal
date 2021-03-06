@@ -1,8 +1,12 @@
-FROM openjdk:8-jdk-alpine
-RUN addgroup -S spring && adduser -S spring -G spring
-USER spring:spring
+FROM maven:3.6.2-ibmjava-8-alpine as build
 WORKDIR /app
 COPY . .
 RUN mvn clean package
-COPY  /app/target/eservice.jar /app/eservice.jar
-ENTRYPOINT ["java","-jar,"eservice.jar"]
+
+FROM openjdk:8u282-oraclelinux8
+
+WORKDIR /app
+
+COPY --from=build /app/target/eService-portal-0.0.1-SNAPSHOT.jar /app/eService-portal-0.0.1-SNAPSHOT.jar
+
+ENTRYPOINT ["java","-jar,"eService-portal-0.0.1-SNAPSHOT.jar"]
