@@ -6,10 +6,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import com.eservice.portal.repository.UserRepository;
-
-import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
 import springfox.documentation.spi.DocumentationType;
 import springfox.documentation.spring.web.plugins.Docket;
@@ -28,6 +27,7 @@ public class EServicePortalApplication {
 	public PasswordEncoder passwordEncoder() {
 	    return new BCryptPasswordEncoder(16);
 	}
+	
     @Bean
     public Docket api() {
         return new Docket(DocumentationType.SWAGGER_2)
@@ -35,4 +35,14 @@ public class EServicePortalApplication {
                 .apis(RequestHandlerSelectors.basePackage("com.eservice.portal"))
                 .build();
 	 }
+
+	@Bean
+	public WebMvcConfigurer corsConfigurer() {
+		return new WebMvcConfigurer() {
+			@Override
+			public void addCorsMappings(CorsRegistry registry) {
+				registry.addMapping("/**"); // here we can do whitelisting ips for allowed origin
+			}
+		};
+	}
 }
