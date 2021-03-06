@@ -34,7 +34,7 @@ public class UserDataLoader implements CommandLineRunner {
 			adminRole.setName("admin");
 
 			UserEntity admin = new UserEntity();
-			admin.setUsername("Admin");
+			admin.setUsername("admin");
 			admin.setPassword(passwordUtility.hash("admin123"));
 			admin.setRole(adminRole);
 			userRepository.save(admin);
@@ -43,8 +43,8 @@ public class UserDataLoader implements CommandLineRunner {
 			role.setName("customer");
 
 			UserEntity user = new UserEntity();
-			user.setUsername("Mike");
-			user.setPassword(passwordUtility.hash("Mike123"));
+			user.setUsername("customer");
+			user.setPassword(passwordUtility.hash("customer123"));
 			user.setRole(role);
 			userRepository.save(user);
 
